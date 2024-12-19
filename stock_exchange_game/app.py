@@ -28,7 +28,7 @@ load_dotenv()
 
 client_build_path = os.path.join(os.path.dirname(__file__), '../client/build')
 
-logging.basicsConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__, static_folder=client_build_path, template_folder='templates')
 
