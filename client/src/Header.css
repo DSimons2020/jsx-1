@@ -1,0 +1,72 @@
+/* General Header Styles */
+.header {
+  background-color: #f8f8f8;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Ensures responsive wrapping on smaller screens */
+}
+
+.home-link {
+  font-size: 16px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.center-info {
+  flex-grow: 1;
+  text-align: center;
+  order: 2; /* Center this block between left and right sections */
+}
+
+.right-links {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  order: 3;
+}
+
+.right-links ul {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.right-links li {
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column; /* Stack all sections on mobile */
+    align-items: stretch;
+  }
+
+  .center-info {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .right-links ul {
+    flex-direction: column; /* Stack right-hand data vertically on mobile */
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .right-links ul {
+    font-size: 12px; /* Smaller text for right-hand data on mobile */
+  }
+}

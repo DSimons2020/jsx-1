@@ -1,0 +1,166 @@
+.category-page {
+  padding: 20px;
+}
+
+/* Make table scrollable for small screens */
+.stock-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Ensure table doesn't shrink too much */
+}
+
+.stock-table th, .stock-table td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.stock-table th {
+  background-color: #f4f4f4;
+  position: sticky; /* Keep header visible on scroll */
+  top: 0;
+  z-index: 1;
+}
+
+.stock-table tr.unavailable {
+  color: grey;
+  font-style: italic;
+}
+
+.stock-table tr.unavailable td {
+  color: grey;
+  font-style: italic;
+}
+
+.stock-table tr:not(.unavailable) td {
+  color: black;
+  font-style: normal;
+}
+
+.owned td {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+.positive-profit {
+  color: green;
+  font-weight: bold;
+}
+
+.negative-profit {
+  color: red;
+  font-weight: bold;
+}
+
+.change-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+  gap: 5px; /* Add spacing between buttons */
+}
+
+.change-buttons button {
+  background-color: grey;
+  color: white;
+  border: none;
+  padding: 8px;
+  margin: 0;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.change-buttons button:disabled {
+  background-color: lightgrey;
+  cursor: not-allowed;
+}
+
+.change-buttons span {
+  min-width: 30px; /* Ensure consistent spacing for the change value */
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 250px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -125px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Owned stocks row */
+.owned {
+  background-color: #e6ffe6;
+}
+
+.unavailable {
+  color: gray;
+  font-style: italic;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .category-page {
+    padding: 10px;
+  }
+
+  .stock-table-container {
+    margin-top: 10px;
+  }
+
+  .stock-table th, .stock-table td {
+    font-size: 12px; /* Smaller font size for mobile */
+    padding: 6px;
+  }
+
+  .change-buttons button {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .tooltip .tooltiptext {
+    font-size: 10px; /* Smaller tooltip text */
+    width: 200px; /* Adjust width for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .stock-table {
+    min-width: unset; /* Allow table to shrink fully */
+  }
+
+  .change-buttons {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 3px;
+  }
+}

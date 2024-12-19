@@ -1,0 +1,97 @@
+.all-stocks-view {
+  padding: 20px;
+}
+
+.stocks-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.stocks-table th, .stocks-table td {
+  padding: 8px;
+  text-align: center;
+  border: none; /* Remove borders */
+}
+
+.category-title {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.label {
+  background-color: #e9e9e9;
+  font-weight: bold;
+}
+
+.stock {
+  font-weight: normal;
+}
+
+.price {
+  font-weight: normal;
+}
+
+.change {
+  font-weight: normal;
+}
+
+.change.no-change {
+  color: black;
+}
+
+.change.positive {
+  color: green;
+}
+
+.change.negative {
+  color: red;
+}
+
+.unavailable {
+  font-style: italic;
+  color: grey;
+}
+
+.clickable {
+  cursor: pointer;
+  /* Remove underline and use a hover effect */
+  text-decoration: none;
+}
+
+.clickable:hover {
+  color: #007bff; /* Change color on hover to indicate it's clickable */
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.filter-container select {
+  font-size: 1rem;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.category-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.stocks-table {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.stocks-table th.category-title {
+  text-align: center;
+}

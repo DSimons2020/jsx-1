@@ -1,0 +1,115 @@
+.historical-events-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.historical-events-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.year-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.year-navigation button {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.year-navigation button:disabled {
+  background-color: lightgrey;
+  cursor: not-allowed;
+}
+
+.current-year {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.toggle-owned-only {
+  display: block;
+  margin: 10px auto;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.toggle-owned-only:hover {
+  background-color: #218838;
+}
+
+.events-feed {
+  margin-top: 20px;
+}
+
+.event-item {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.event-item h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.event-item p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .historical-events-container {
+    padding: 10px;
+  }
+
+  .year-navigation button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .toggle-owned-only {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  .event-item h3 {
+    font-size: 14px;
+  }
+
+  .event-item p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .year-navigation {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .toggle-owned-only {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}

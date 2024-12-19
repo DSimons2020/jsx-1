@@ -1,0 +1,213 @@
+/* Base Styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Title */
+.home-title {
+  font-size: 2.5rem;
+  color: #444;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Navigation Buttons */
+.navigation-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.nav-button {
+  background-color: #fff;
+  color: #333;
+  padding: 15px;
+  text-decoration: none;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-button:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+/* Portfolio and Sales Sections */
+.portfolio-section, .completed-sales-section {
+  margin-bottom: 40px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #444;
+  margin-bottom: 20px;
+  text-align: left;
+  border-left: 4px solid #ccc;
+  padding-left: 10px;
+  font-weight: 500;
+}
+
+/* Tables */
+.portfolio-table, .sales-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.portfolio-table th, .sales-table th {
+  background-color: #f7f7f7;
+  color: #555;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 10px;
+}
+
+.portfolio-table td, .sales-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.portfolio-table tr:nth-child(even), .sales-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Profit Colors */
+.positive-profit {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.negative-profit {
+  color: #f44336;
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;
+  padding: 20px;
+  background: #f7f7f7;
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .portfolio-section, .completed-sales-section {
+    overflow-x: auto;
+  }
+
+  .portfolio-table, .sales-table {
+    width: 100%;
+    min-width: 500px; /* Ensure table scrolls horizontally */
+  }
+
+  .portfolio-table th, .portfolio-table td,
+  .sales-table th, .sales-table td {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-button {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  .portfolio-table th, .portfolio-table td,
+  .sales-table th, .sales-table td {
+    font-size: 0.75rem;
+    padding: 8px;
+  }
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-button {
+  background-color: #fff;
+  color: #333;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+/* Sell All Button */
+.sell-all-button {
+  margin-left: auto;
+  display:inline-block;
+  padding: 8px 12px;
+  background-color: #fff; /* Green color for action buttons */
+  color: #333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.sell-all-button:hover {
+  background-color: #f0f0f0; /* Slightly darker green on hover */
+  transform: translateY(-2px);
+}
+
+.sell-all-button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Table Cell for Potential Profit Column */
+.portfolio-table td.potential-profit-cell {
+  display: flex;
+  justify-content: flex-end; /* Right-align content */
+  align-items: center; /* Vertically center content */
+  padding: 12px 10px;
+}

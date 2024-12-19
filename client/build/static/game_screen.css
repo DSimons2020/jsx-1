@@ -1,0 +1,141 @@
+/* Header Styling */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+}
+
+#header div {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#header a {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+/* Center the title in the header */
+#header-title {
+    flex: 1;
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+/* Adjust padding for historical news feed */
+#historical-news {
+    margin-top: 10px; /* Reduce top margin */
+    padding-top: 5px; /* Reduce internal padding, if needed */
+}
+/* Adjust padding between header and tables */
+#content {
+    padding-top: 10px; /* Reduce top padding */
+}
+
+/* Header Styling */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Adjust overall padding */
+    background-color: #f0f0f0;
+}
+/* Default font size */
+#historical-news ul {
+    font-size: 1em;
+}
+
+/* Smaller font size for more entries (use classes for manual adjustment if needed) */
+#historical-news ul.shrink {
+    font-size: 0.9em;
+}
+/* General Body Styling */
+body {
+    margin: 0;
+    font-family: Tahoma, Arial, sans-serif; /* Set Tahoma as the primary font */
+}
+
+/* Header Styling */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+#header div {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#header a {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+/* Content Styling */
+#content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+#tables-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    flex: 1;
+    margin: 0 10px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Tahoma, Arial, sans-serif; /* Ensure Tahoma applies to table text */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-size: 1.1em;
+}
+
+td.green {
+    color: green;
+    font-weight: bold;
+}
+
+td.red {
+    color: red;
+    font-weight: bold;
+}
+
+/* Historical News Styling */
+#historical-news {
+    margin-top: 20px;
+}
+
+#historical-news ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+
+#historical-news li {
+    margin-bottom: 10px;
+}
