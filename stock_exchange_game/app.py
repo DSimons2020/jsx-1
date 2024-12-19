@@ -1910,9 +1910,4 @@ def leaderboard():
 #    db.session.commit()
 
 
-# Run the app
-if __name__ == '__main__':
-    with app.app_context():
-        print(app.config['SQLALCHEMY_DATABASE_URI'])
-        db.create_all()
-    app.run(debug=True)
+gunicorn -w 4 -b 0.0.0.0:8000 app:app
