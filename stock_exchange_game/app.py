@@ -50,8 +50,9 @@ if db_path.startswith("postgres://"):
 app.config['SQLALCHEMY_DATABASE_URI'] = db_path
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SESSION_TYPE'] = 'redis'
-app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_TYPE'] = 'sqlalchemy'
+app.config['SESSION_SQLALCHEMY'] = SQLAlchemy(app)
+app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_COOKIE_NAME'] = 'session'
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
