@@ -19,6 +19,7 @@ import os
 import random
 import bcrypt
 import jwt
+import logging
 from functools import wraps
 
 import secrets
@@ -26,6 +27,8 @@ import secrets
 load_dotenv()
 
 client_build_path = os.path.join(os.path.dirname(__file__), '../client/build')
+
+logging.basicsConfig(level=logging.DEBUG)
 
 app = Flask(__name__, static_folder=client_build_path, template_folder='templates')
 
@@ -1909,6 +1912,7 @@ def not_found_error(error):
 
 @app.errorhandler(500)
 def internal_error(error):
+    app.logger.error(f"Internal error: {e}")
     db.session.rollback()  # Rollback if an error occurs during a request
     return render_template('500.html'), 500
 
