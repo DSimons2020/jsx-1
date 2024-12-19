@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ player.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .positive-profit {
+            color: green;
+        }
+        .negative-profit {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ player.name }}</h1>
+    </header>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Admin Dashboard</a>
+    <div>
+        <p><strong>Cash-in-hand:</strong> £{{ player.balance | round(1) }}</p>
+        <p><strong>Total Value:</strong> £{{ (player.balance + player.portfolio_value) | round(1) }}</p>
+    </div>
+
+    <div>
+        <h2>Team's Portfolio</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Quantity</th>
+                    <th>Current Value</th>
+                    <th>Potential Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in portfolio %}
+                <tr>
+                    <td>{{ item.stock_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>£{{ item.current_value | round }}</td>
+                    <td class="{% if item.potential_profit > 0 %}positive-profit{% elif item.potential_profit < 0 %}negative-profit{% endif %}">
+                        £{{ item.potential_profit | round }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h2>Completed Sales</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Stock Name</th>
+                    <th>Price Purchased</th>
+                    <th>Number of Stocks Sold</th>
+                    <th>Price Sold</th>
+                    <th>Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in completed_sales %}
+                <tr>
+                    <td>{{ sale.stock_name }}</td>
+                    <td>£{{ sale.price_purchased| round }}</td>
+                    <td>{{ sale.quantity_sold }}</td>
+                    <td>£{{ sale.price_sold| round  }}</td>
+                    <td>£{{ sale.profit| round  }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ url_for('admin_dashboard') }}">Back to Admin Dashboard</a>
+</body>
+</html>

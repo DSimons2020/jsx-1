@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Screen</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='game_screen.css') }}">
+    <style>
+        /* Limit height for the historical news feed */
+        #historical-news {
+            position: relative;
+            overflow: hidden;
+            height: auto;
+        }
+
+        #news-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #news-list li {
+            margin-bottom: 10px;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <div>Year: {{ current_year }}</div>
+            <div id="header-title">Welcome to the Jewish Stock Exchange</div>
+            <a href="{{ url_for('admin_dashboard') }}">Back to Home</a>
+        </div>
+        <div id="content">
+            <div id="tables-row">
+                <!-- Top 5 Players -->
+                <div class="table-container" id="top-players">
+                    <h2>Top Players</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Top 5 Stock Increases -->
+                <div class="table-container" id="biggest-movers">
+                    <h2>Top 5 Increases</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stock in top_5_increases %}
+                            <tr>
+                                <td>{{ stock.name }}</td>
+                                <td class="green">+{{ stock.change|round(1) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Top 5 Stock Decreases -->
+                <div class="table-container" id="worst-performers">
+                    <h2>Top 5 Decreases</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for stock in top_5_decreases|reverse %}
+                            <tr>
+                                <td>{{ stock.name }}</td>
+                                <td class="red">{{ stock.change|round(1) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Historical News -->
+            <div id="historical-news">
+                <h2>Historical News</h2>
+                <ul id="news-list">
+                    {% for news in historical_news %}
+                    <li>
+                        <strong>{{ news.name }}:</strong>
+                        <em>{{ news.title }}</em> - 
+                        {{ news.detail }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch and update the player table
+            function refreshPlayerTable() {
+    fetch('/get_player_table')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error("Error fetching player table:", data.error);
+                return;
+            }
+
+            const playerTable = data.player_table || [];
+            const topPlayersTable = document.querySelector("#top-players tbody");
+            if (!topPlayersTable) {
+                console.error("Top Players table tbody element not found!");
+                return;
+            }
+
+            topPlayersTable.innerHTML = ''; // Clear existing rows
+            playerTable.forEach((player, index) => {
+                const row = `<tr>
+                    <td>${index + 1}</td>
+                    <td><a href="/admin/player/${player.player_id}">${player.name}</a></td>
+                    <td>£${player.total_value}</td>
+                </tr>`;
+                topPlayersTable.insertAdjacentHTML('beforeend', row);
+            });
+        })
+        .catch(error => console.error('Error fetching player table:', error));
+}
+
+            // Fetch and update other game screen elements
+            function refreshGameScreen() {
+                fetch('{{ url_for("get_game_status") }}')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the year
+                        document.querySelector("#header div:first-child").textContent = `Year: ${data.current_year}`;
+
+                        // Update Top Players Table
+                        refreshPlayerTable();
+                    })
+                    .catch(error => console.error('Error fetching game status:', error));
+            }
+
+            // Refresh every 2 seconds
+            setInterval(refreshGameScreen, 2000);
+        });
+    </script>
+</body>
+</html>

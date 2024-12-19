@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Exchange Game</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Welcome to the Stock Exchange Game</h1>
+    {% if session['admin_logged_in'] %}
+        <a href="{{ url_for('admin_logout') }}">Logout</a>
+    {% endif %}
+    <div><span id="current-year"><h3>Current Year:</h3> {{ current_year }}</span></div>
+    <div><span id="game-status"><h3>Game Status:</h3> {{ "Running" if game_running else "Yet to Begin" }}</span></div>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="button-container">
+    <form method="POST" action="{{ url_for('start_game') }}">
+      <button type="submit">Start Game</button>
+    </form>
+    <form method="POST" action="{{ url_for('restart_game') }}">
+      <button type="submit">Restart Game</button>
+    </form>
+    <button id="stop-game-button" onclick="stopGame()">Stop Game</button>
+    <form method="POST" action="{{ url_for('set_year') }}">
+      <input type="number" name="year" placeholder="Enter Start Year">
+      <button type="submit">Start at Specified Year</button>
+    </form>
+    <form method="POST" action="{{ url_for('record_scores') }}">
+      <button type="submit">Record Players' Scores</button>
+    </form>
+  
+  </div>
+
+  <a href="{{ url_for('leaderboard') }}">View All-Time Leader Board</a>
+  <a href="{{ url_for('game_screen') }}">Game Screen</a>
+
+ <!--
+  <h3>Create Market Event</h3>
+    <form method="POST" action="{{ url_for('create_market_event') }}">
+      <input type="number" name="year" placeholder="Year" required>
+      <input type="text" name="effect_description" placeholder="Description" required>
+      <input type="text" name="sector" placeholder="Sector (optional)">
+      <input type="number" step="0.1" name="price_change_factor" placeholder="Price Change Factor" required>
+      <input type="number" step="0.1" name="demand_change_factor" placeholder="Demand Change Factor" required>
+     <button type="submit">Create Event</button>
+  </form> 
+  -->
+  
+
+  <div>
+    <h2>Players</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Total Player Value</th>
+        </tr>
+      </thead>
+      <tbody id="player-table">
+        {% for player in player_table %}
+        <tr>
+          <td><a href="{{ url_for('admin_player_details', player_id=player['player_id']) }}">{{ player.name }}</a></td>
+            <td>£{{ player.total_value }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+
+  <div>
+    <h2>Stocks</h2>
+    <div id="stocks-display">
+      {{ stocks_display | safe }}
+    </div>
+  </div>
+
+    <script>
+    function refreshCurrentYear() {
+      fetch('/get_current_year')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('current-year').innerText = 'Current Year: ' + data.current_year;
+          document.getElementById('game-status').innerText = 'Game Status: ' + (data.game_running ? 'Running' : 'Yet to Begin');
+
+          if (data.game_running) {
+            updateTables();
+          }
+        })
+        .catch(error => console.error('Error fetching current year:', error));
+    }
+
+    function updateTables() {
+  fetch('/update_stocks')
+    .then(response => response.json())
+    .then(data => {
+      const playerTable = document.getElementById('player-table');
+      playerTable.innerHTML = ''; // Clear the table before appending
+
+      data.player_table.forEach(player => {
+        const row = document.createElement('tr');
+
+        // Create name cell with link
+        const nameCell = document.createElement('td');
+        const nameLink = document.createElement('a');
+        nameLink.textContent = player.name;
+        nameLink.href = `/admin/player/${player.player_id}`; // Update with your route for player details
+        nameCell.appendChild(nameLink);
+
+        // Create total value cell
+        const valueCell = document.createElement('td');
+        valueCell.textContent = `£${player.total_value}`;
+
+        // Append cells to row
+        row.appendChild(nameCell);
+        row.appendChild(valueCell);
+
+        // Append row to the table
+        playerTable.appendChild(row);
+      });
+    })
+    .catch(error => console.error('Error updating stocks and players:', error));
+}
+
+    function checkGameRunning() {
+      fetch('/get_current_year')
+        .then(response => response.json())
+        .then(data => {
+          if (data.game_running) {
+            refreshCurrentYear();
+            setInterval(refreshCurrentYear, 5000);
+          } else {
+            refreshCurrentYear();
+          }
+        })
+        .catch(error => console.error('Error checking game status:', error));
+    }
+
+    checkGameRunning();
+  
+    function stopGame() {
+    fetch('/stop_game', { method: 'POST' })
+      .then(response => {
+        if (response.ok) {
+          alert('Game has been stopped, and stocks have been sold!');
+          location.reload(); // Refresh the page to reflect changes
+        } else {
+          alert('Error stopping the game.');
+        }
+      })
+      .catch(error => console.error('Error stopping the game:', error));
+  }
+  </script>
+
+</body>
+</html>
