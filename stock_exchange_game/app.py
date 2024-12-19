@@ -61,9 +61,8 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevent JavaScript access to coo
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=240)  # or whatever is appropriate
 
 # Initialize the database
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 db.init_app(app)
-app.config['SESSION_SQLALCHEMY'] = db
 
 
 # Set the SQLAlchemy instance to store session data
