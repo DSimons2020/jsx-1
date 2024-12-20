@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import StockGraphPopup from "./StockGraphPopup";
 import "./SellStocks.css";
+import apiFetch from './api';
 
 const SellStocksPage = () => {
   const [stocks, setStocks] = useState([]); // Original owned stocks
@@ -16,7 +17,7 @@ const SellStocksPage = () => {
       const token = localStorage.getItem("token");
       try {
         // Fetch player portfolio
-        const portfolioResponse = await fetch("/api/player_portfolio", {
+        const portfolioResponse = await apiFetch("/api/player_portfolio", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -30,7 +31,7 @@ const SellStocksPage = () => {
         setPlayerPortfolio(portfolio);
 
         // Fetch stocks
-        const response = await fetch("/api/stocks_data", {
+        const response = await apiFetch("/api/stocks_data", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -86,7 +87,7 @@ const SellStocksPage = () => {
   }, [stocks, sortOption, playerPortfolio]); // Trigger sorting only when relevant data changes
 
   const fetchStockHistory = (stockId, stockName) => {
-    fetch(`/api/stock_history/${stockId}`)
+    apiFetch(`/api/stock_history/${stockId}`)
       .then((response) => response.json())
       .then((data) => {
         setStockHistory(data);
@@ -115,7 +116,7 @@ const SellStocksPage = () => {
     if (change === 0) return;
 
     const token = localStorage.getItem("token");
-    fetch("/api/update_portfolio", {
+    apiFetch("/api/update_portfolio", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
