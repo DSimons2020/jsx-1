@@ -10,7 +10,7 @@ import Ticker from './Ticker'; // Import the Ticker component
 import WatchList from './WatchList';
 import SearchPage from './SearchPage';
 import SellStocks from './SellStocks';
-
+import apiFetch from './api'; 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -27,7 +27,7 @@ function App() {
           return;
         }
 
-        const response = await fetch('/api/player_info', {
+        const response = await apiFetch('/api/player_info', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
