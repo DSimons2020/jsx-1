@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import apiFetch from './api';
 
 const Header = ({
   currentYear,
@@ -20,7 +21,7 @@ const Header = ({
 
   const fetchPlayerInfo = () => {
     const token = localStorage.getItem('token');
-    fetch('/api/player_info', {
+    apiFetch('/api/player_info', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
