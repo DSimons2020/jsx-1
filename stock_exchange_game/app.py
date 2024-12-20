@@ -83,49 +83,45 @@ DEFAULT_MARKET_CAP = 1_000  # Default market capitalization value for all stocks
 MARKET_CAP_SCALING_FACTOR = 0.0001  # Percentage scaling for market cap effects on supply-demand
 
 
-def generate_jwt_token(player_id):
+# Generate JWT Token
+def generate_jwt_token(team_name):
     payload = {
-        'exp': datetime.now(timezone.utc) + timedelta(hours=24),  # Token expiration time
-        'iat': datetime.now(timezone.utc),  # Issued at time
-        'sub': player_id  # Subject (player_id)
+        'exp': datetime.now(timezone.utc) + timedelta(hours=24),
+        'iat': datetime.now(timezone.utc),
+        'sub': team_name
     }
-    try:
-        token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
-        return token
-    except Exception as e:
-        print(f"[ERROR] Failed to generate JWT: {e}")
-        return None
+    return jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
 
-
+# Decode JWT Token
 def decode_jwt_token(token):
     try:
         payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-        return payload.get('sub')  # Extract 'sub' from payload
+        return payload['sub']
     except jwt.ExpiredSignatureError:
-        print("[ERROR] Token expired.")
-        return None  # Token expired
-    except jwt.InvalidTokenError as e:
-        print(f"[ERROR] Invalid token: {e}")
-        return None  # Invalid token
+        return None
+    except jwt.InvalidTokenError:
+        return None
 
+# Token Middleware
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = None
-        if 'Authorization' in request.headers:
-            token = request.headers['Authorization'].split()[1]
+        token = request.headers.get('Authorization')
+        if token and token.startswith("Bearer "):
+            token = token.split(" ")[1]
 
         if not token:
             return jsonify({'message': 'Token is missing!'}), 401
 
-        try:
-            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
-            current_user = db.session.query(Player).filter_by(player_id=data['player_id']).first()
-        except:
-            return jsonify({'message': 'Token is invalid!'}), 401
+        team_name = decode_jwt_token(token)
+        if not team_name:
+            return jsonify({'message': 'Token is invalid or expired!'}), 401
 
-        return f(current_user, *args, **kwargs)
-    
+        player = Player.query.filter_by(name=team_name).first()
+        if not player:
+            return jsonify({'message': 'User not found!'}), 404
+
+        return f(player, *args, **kwargs)
     return decorated
 
 def admin_required(f):
@@ -1448,6 +1444,7 @@ def update_stocks():
 
 
 
+# Login Endpoint
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -1459,19 +1456,15 @@ def login():
     player = Player.query.filter_by(name=team_name).first()
 
     if not player:
-        # Create new player
-        new_player = Player(name=team_name, balance=1000)
+        # Create a new player if not exists
+        new_player = Player(name=team_name)
         db.session.add(new_player)
         db.session.commit()
         player = new_player
 
     # Generate JWT token
-    token = generate_jwt_token(player.player_id)
-    if not token:
-        return jsonify({'message': 'Failed to generate token'}), 500
-
+    token = generate_jwt_token(player.name)
     return jsonify({'token': token})
-
 
 
 
