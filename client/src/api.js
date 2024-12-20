@@ -1,4 +1,4 @@
-const API_URL = "http://jsx-1.railway.internal:5000/api";
+const API_URL = "http://jsx-1.railway.internal/api";
 
 const apiFetch = async (endpoint, options = {}) => {
     
