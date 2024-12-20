@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2';
 import './StockGraphPopup.css';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
+import apiFetch from './api';
 
 const StockGraphPopup = ({ stockName, data, onClose }) => {
   const years = Array.from({ length: 2025 - 1899 + 1 }, (_, i) => i + 1899);  // Generate years from 1899 to 2025
