@@ -25,6 +25,8 @@ from functools import wraps
 
 import secrets
 
+print("Backend service running at:", os.getenv("PORT"))
+
 load_dotenv()
 
 client_build_path = os.path.join(os.path.dirname(__file__), '../client/build')
@@ -33,7 +35,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__, static_folder=client_build_path, template_folder='templates')
 
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "https://jsx-1-production-c820.up.railway.app/"}})
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "https://responsible-luck-production.up.railway.app"}})
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your_jwt_secret_key')
 
