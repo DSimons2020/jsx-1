@@ -1910,5 +1910,9 @@ def internal_error(error):
 #    db.session.execute(delete(Session).where(Session.expiry < now))  # Here, `Session` should be your session model, so replace it if necessary.
 #    db.session.commit()
 
-
-gunicorn -w 4 -b 0.0.0.0:8000 app:app
+# Run the app
+if __name__ == '__main__':
+    with app.app_context():
+        print(app.config['SQLALCHEMY_DATABASE_URI'])
+        db.create_all()
+    app.run(debug=True)
