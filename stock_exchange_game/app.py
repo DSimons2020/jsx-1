@@ -89,15 +89,23 @@ def generate_jwt_token(player_id):
         'iat': datetime.now(timezone.utc),  # Issued at time
         'sub': player_id  # Subject (player_id)
     }
-    return jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+    try:
+        token = jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm='HS256')
+        return token
+    except Exception as e:
+        print(f"[ERROR] Failed to generate JWT: {e}")
+        return None
+
 
 def decode_jwt_token(token):
     try:
         payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-        return payload['sub']
+        return payload.get('sub')  # Extract 'sub' from payload
     except jwt.ExpiredSignatureError:
+        print("[ERROR] Token expired.")
         return None  # Token expired
-    except jwt.InvalidTokenError:
+    except jwt.InvalidTokenError as e:
+        print(f"[ERROR] Invalid token: {e}")
         return None  # Invalid token
 
 def token_required(f):
@@ -1458,12 +1466,12 @@ def login():
         player = new_player
 
     # Generate JWT token
-    token = jwt.encode({
-        'player_id': player.player_id,
-        'exp': datetime.now(timezone.utc) + timedelta(hours=3)
-    }, app.config['SECRET_KEY'], algorithm='HS256')
+    token = generate_jwt_token(player.player_id)
+    if not token:
+        return jsonify({'message': 'Failed to generate token'}), 500
 
     return jsonify({'token': token})
+
 
 
 
