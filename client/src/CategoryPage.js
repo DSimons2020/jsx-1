@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import StockGraphPopup from './StockGraphPopup';
 import './CategoryPage.css';
+import apiFetch from './api';
 
 const CategoryPage = () => {
   const { categoryId } = useParams();
@@ -14,7 +15,7 @@ const CategoryPage = () => {
 
   const fetchStockHistory = (stockId, stockName) => {
     const token = localStorage.getItem('token');
-    fetch(`/api/stock_history/${stockId}`, {
+    apiFetch(`/api/stock_history/${stockId}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -31,7 +32,7 @@ const CategoryPage = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    fetch(`/api/stocks/${categoryId}`, {
+    apiFetch(`/api/stocks/${categoryId}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -48,7 +49,7 @@ const CategoryPage = () => {
       })
       .catch((error) => console.error('Error fetching stocks:', error));
 
-    fetch('/api/player_portfolio', {
+    apiFetch('/api/player_portfolio', {
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ const CategoryPage = () => {
 
     const token = localStorage.getItem('token');
 
-    fetch('/api/update_portfolio', {
+    apiFetch('/api/update_portfolio', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -85,7 +86,7 @@ const CategoryPage = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
-          fetch('/api/player_portfolio', {
+          apiFetch('/api/player_portfolio', {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -161,7 +162,7 @@ const CategoryPage = () => {
 
           return (
             <tr key={stock.stock_id} className={rowClass}>
-              <td className="clickable" onClick={() => fetchStockHistory(stock.stock_id, stock.name)}>
+              <td className="clickable" onClick={() => apiFetchStockHistory(stock.stock_id, stock.name)}>
                 {stock.name}
               </td>
               <td>{stock.price > 0 ? `£${stock.price}` : 'N/A'}</td>
