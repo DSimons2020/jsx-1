@@ -1055,13 +1055,12 @@ def generate_stocks_display_data(stocks, previous_year_stocks, current_year):
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_react_app(path):
-    if path.startswith("static"):
-        # This ensures static files are served correctly
-        return send_from_directory(app.static_folder, path)
-    elif path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+    if path.startswith("api/"):
+        return jsonify({"error": "API route not found"}), 404
+
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
         return send_from_directory(app.static_folder, path)
     else:
-        # Fallback to React's index.html for non-static routes
         return send_from_directory(app.static_folder, "index.html")
 
 
@@ -1457,7 +1456,7 @@ def update_stocks():
 
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
     team_name = data.get('teamName')
