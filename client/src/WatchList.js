@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './WatchList.css';
+import apiFetch from './api';
 
 const WatchList = () => {
   const [categories, setCategories] = useState([]);
@@ -8,7 +9,7 @@ const WatchList = () => {
 
   // Fetch categories on component mount
   useEffect(() => {
-    fetch('/api/categories')
+    apiFetch('/api/categories')
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error('Error fetching categories:', error));
@@ -20,7 +21,7 @@ const WatchList = () => {
     setSelectedCategory(category);
 
     if (category) {
-      fetch(`/api/stocks/${category}`)
+      apiFetch(`/api/stocks/${category}`)
         .then((response) => response.json())
         .then((data) => setStocksData(data))
         .catch((error) => console.error('Error fetching stocks:', error));
@@ -39,7 +40,7 @@ const WatchList = () => {
       valueAlertEnabled,
     };
 
-    fetch('/api/watch_list', {
+    apiFetch('/api/watch_list', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
