@@ -1928,21 +1928,19 @@ def serve_static(path):
 #    db.session.execute(delete(Session).where(Session.expiry < now))  # Here, `Session` should be your session model, so replace it if necessary.
 #    db.session.commit()
 
+@app.route("/api/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
+def api_routes(path):
+    # API route handling
+    return jsonify({"error": "API endpoint not found"}), 404
+
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_react_app(path):
-    # If the path starts with 'api/', it's an invalid API route.
-    if path.startswith("api/"):
-        return jsonify({"error": "API route not found"}), 404
-
-    # Serve static files if they exist
-    file_path = os.path.join(app.static_folder, path)
-    if os.path.exists(file_path):
+    # Serve React app for any other routes
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
         return send_from_directory(app.static_folder, path)
-
-    # Default to serving React's index.html
     return send_from_directory(app.static_folder, "index.html")
-
+    
 # Run the app
 if __name__ == '__main__':
     with app.app_context():
