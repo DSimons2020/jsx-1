@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from 'bcryptjs';
 import './Login.css';
+import apiFetch from './api';
 
 const Login = ({ setIsAuthenticated }) => {
   const [teamName, setTeamName] = useState('');
@@ -13,7 +14,7 @@ const Login = ({ setIsAuthenticated }) => {
     setErrorMessage(''); // Clear previous error message
 
     try {
-      const loginResponse = await fetch('api/login', {
+      const loginResponse = await apiFetch('api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
