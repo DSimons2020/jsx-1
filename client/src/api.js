@@ -1,6 +1,9 @@
 const API_URL = process.env.REACT_APP_API_URL || "";
 
 const apiFetch = async (endpoint, options = {}) => {
+    
+    console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
+    
     if (!endpoint || typeof endpoint !== "string") {
         throw new Error("Invalid API endpoint");
     }
