@@ -1052,16 +1052,7 @@ def generate_stocks_display_data(stocks, previous_year_stocks, current_year):
 
 
 
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def serve_react_app(path):
-    if path.startswith("api/"):
-        return jsonify({"error": "API route not found"}), 404
 
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-        return send_from_directory(app.static_folder, path)
-    else:
-        return send_from_directory(app.static_folder, "index.html")
 
 
 @app.route('/admin/login', methods=['GET', 'POST'])
@@ -1935,6 +1926,16 @@ def serve_static(path):
 #    db.session.execute(delete(Session).where(Session.expiry < now))  # Here, `Session` should be your session model, so replace it if necessary.
 #    db.session.commit()
 
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve_react_app(path):
+    if path.startswith("api/"):
+        return jsonify({"error": "API route not found"}), 404
+
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, "index.html")
 
 # Run the app
 if __name__ == '__main__':
