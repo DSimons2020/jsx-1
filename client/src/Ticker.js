@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Ticker.css';
+import apiFetch from './api';
 
 const Ticker = () => {
   const [alerts, setAlerts] = useState([]);
@@ -9,7 +10,7 @@ const Ticker = () => {
       const token = localStorage.getItem('token');
 
       try {
-        const watchListResponse = await fetch('/api/watch_list', {
+        const watchListResponse = await apiFetch('/api/watch_list', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -17,7 +18,7 @@ const Ticker = () => {
         });
         const watchList = await watchListResponse.json();
 
-        const stocksResponse = await fetch('/api/stocks_with_history', {
+        const stocksResponse = await apiFetch('/api/stocks_with_history', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ const Ticker = () => {
         setAlerts(newAlerts);
 
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error ing data:", error);
       }
     };
 
