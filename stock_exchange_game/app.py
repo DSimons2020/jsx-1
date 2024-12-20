@@ -18,7 +18,7 @@ import redis
 import os
 import random
 import bcrypt
-import jwt
+import PyJWT as jwt
 from functools import wraps
 
 import secrets
