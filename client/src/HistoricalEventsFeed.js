@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HistoricalEventsFeed.css';
+import apiFetch from './api';
 
 const HistoricalEventsFeed = () => {
   const [events, setEvents] = useState([]);
@@ -21,7 +22,7 @@ const HistoricalEventsFeed = () => {
 
   const fetchCurrentYear = async () => {
     const token = localStorage.getItem('token');
-    const response = await fetch('/api/game_status', {
+    const response = await apiFetch('/api/game_status', {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -30,12 +31,12 @@ const HistoricalEventsFeed = () => {
     const data = await response.json();
     setCurrentYear(data.current_year);
     setMaxYear(data.current_year);
-    fetchEvents(data.current_year);
+    Events(data.current_year);
   };
 
   const fetchPortfolio = async () => {
     const token = localStorage.getItem('token');
-    const response = await fetch('/api/player_portfolio', {
+    const response = await apiFetch('/api/player_portfolio', {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -47,7 +48,7 @@ const HistoricalEventsFeed = () => {
 
   const fetchEvents = async (year) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/api/historical_events?year=${year}`, {
+    const response = await apiFetch(`/api/historical_events?year=${year}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
