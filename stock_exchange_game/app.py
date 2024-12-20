@@ -1922,6 +1922,10 @@ def internal_error(error):
 def test_js():
     return send_from_directory(app.static_folder, 'static/js/main.151abfcc.js')
 
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory(os.path.join(app.static_folder, 'static'), path)
+
 #def clean_up_expired_sessions():
 #    now = datetime.now(timezone.utc)  # Use timezone-aware UTC datetime
 #    db.session.execute(delete(Session).where(Session.expiry < now))  # Here, `Session` should be your session model, so replace it if necessary.
