@@ -1,9 +1,9 @@
 const API_URL = process.env.REACT_APP_API_URL || "";
+ console.log("API Fetch URL:", url); // Debugging line
 
 const apiFetch = async (endpoint, options = {}) => {
     const url = `${API_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
-    console.log("API Fetch URL:", url); // Debugging line
-
+   
     const response = await fetch(url, {
         ...options,
         headers: {
