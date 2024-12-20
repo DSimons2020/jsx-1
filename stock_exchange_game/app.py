@@ -1051,7 +1051,9 @@ def generate_stocks_display_data(stocks, previous_year_stocks, current_year):
     }
 
 
-
+@app.before_request
+def log_request():
+    print(f"Incoming request: {request.method} {request.path}")
 
 
 
