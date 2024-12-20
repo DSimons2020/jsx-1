@@ -1,7 +1,9 @@
 const API_URL = process.env.REACT_APP_API_URL || "";
 
 const apiFetch = async (endpoint, options = {}) => {
-    const response = await fetch(`${API_URL}${endpoint}`, {
+    const url = `${API_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+
+    const response = await fetch(url, {
         ...options,
         headers: {
             "Content-Type": "application/json",
