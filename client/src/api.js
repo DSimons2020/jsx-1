@@ -1,8 +1,6 @@
-const API_URL = process.env.REACT_APP_API_URL || "";
+const API_URL = "http://jsx-1.railway.internal:5000/api";
 
 const apiFetch = async (endpoint, options = {}) => {
-    
-    console.log("REACT_APP_API_URL:", process.env.REACT_APP_API_URL);
     
     if (!endpoint || typeof endpoint !== "string") {
         throw new Error("Invalid API endpoint");
