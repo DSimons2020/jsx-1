@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import StockGraphPopup from "./StockGraphPopup";
 import "./SearchPage.css";
+import apiFetch from './api';
 
 const SearchPage = () => {
   const [stocks, setStocks] = useState([]);
@@ -29,7 +30,7 @@ const SearchPage = () => {
 
       try {
         // Fetch stocks and categories
-        const response = await fetch("/api/stocks_data", {
+        const response = await apiFetch("/api/stocks_data", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -53,7 +54,7 @@ const SearchPage = () => {
 
       try {
         // Fetch player portfolio
-        const portfolioResponse = await fetch("/api/player_portfolio", {
+        const portfolioResponse = await apiFetch("/api/player_portfolio", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -69,7 +70,7 @@ const SearchPage = () => {
         console.error("Error fetching player portfolio:", error);
       }
       // Fetch player balance (assuming an API endpoint provides this)
-      const playerInfoResponse = await fetch("/api/player_info", {
+      const playerInfoResponse = await apiFetch("/api/player_info", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -141,7 +142,7 @@ const SearchPage = () => {
 
   const fetchStockHistory = (stockId, stockName) => {
     console.log("Fetching history for stock ID: ", stockId);
-    fetch(`/api/stock_history/${stockId}`)
+    apiFetch(`/api/stock_history/${stockId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched stock history: ", data);
@@ -188,7 +189,7 @@ const SearchPage = () => {
     if (change === 0) return;
   
     const token = localStorage.getItem("token");
-    fetch("/api/update_portfolio", {
+    apiFetch("/api/update_portfolio", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
