@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import StockGraphPopup from './StockGraphPopup';
 import './Home.css';
+import apiFetch from './api';
 
 const Home = () => {
   const [portfolio, setPortfolio] = useState([]);
@@ -26,7 +27,7 @@ const Home = () => {
 
   const fetchPortfolio = () => {
     const token = localStorage.getItem('token');
-    fetch('/api/player_portfolio', {
+    apiFetch('/api/player_portfolio', {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ const Home = () => {
 
   const fetchCompletedSales = () => {
     const token = localStorage.getItem('token');
-    fetch('/api/player_info', {
+    apiFetch('/api/player_info', {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ const Home = () => {
 
   const fetchStockHistory = (stockId, stockName) => {
     const token = localStorage.getItem('token');
-    fetch(`/api/stock_history/${stockId}`, {
+    apiFetch(`/api/stock_history/${stockId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -72,7 +73,7 @@ const Home = () => {
 
   const sellAllStocks = (stockId, quantity) => {
     const token = localStorage.getItem("token");
-    fetch("/api/update_portfolio", {
+    apiFetch("/api/update_portfolio", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
