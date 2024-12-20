@@ -29,7 +29,7 @@ client_build_path = os.path.join(os.path.dirname(__file__), '../client/build')
 
 app = Flask(__name__, static_folder=client_build_path, template_folder='templates')
 
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": os.getenv('ALLOWED_ORIGINS', '*').split(',')}})
+CORS(app, supports_credentials=True)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your_jwt_secret_key')
 
@@ -40,11 +40,10 @@ ADMIN_PASSWORD = 'password'
 
 # Use environment variables for sensitive data
 
-db_path = os.environ.get('DATABASE_URL', 'sqlite:///stock_exchange_game.db')
-if db_path.startswith("postgres://"):
-    db_path = db_path.replace("postgres://", "postgresql://", 1)  # Heroku fix for SQLAlchemy
-app.config['SQLALCHEMY_DATABASE_URI'] = db_path
 
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'instance', 'stock_exchange_game.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_TYPE'] = 'redis'
 app.config['SESSION_PERMANENT'] = True
@@ -52,8 +51,8 @@ app.config['SESSION_USE_SIGNER'] = True
 app.config['SESSION_COOKIE_NAME'] = 'session'
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_KEY_PREFIX'] = 'flask-session:'
-app.config['SESSION_REDIS'] = redis.StrictRedis.from_url(os.getenv('REDIS_URL', 'redis://localhost:6379/0'))
-app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE', 'True') == 'True'
+app.config['SESSION_REDIS'] = redis.from_url('redis://red-cr5q5mlumphs73e7aa3g:6379')
+app.config['SESSION_COOKIE_SECURE'] =True
 app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevent JavaScript access to cookies
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=240)  # or whatever is appropriate
 
@@ -83,12 +82,6 @@ AI_PLAYER_NAMES = ["Bot 1", "Bot 2", "Bot 3", "Bot 4", "Bot 5"]
 DEFAULT_MARKET_CAP = 1_000  # Default market capitalization value for all stocks
 MARKET_CAP_SCALING_FACTOR = 0.0001  # Percentage scaling for market cap effects on supply-demand
 
-
-# Add this back for direct SQLAlchemy session management
-DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///stock_exchange_game.db')
-engine = create_engine(DATABASE_URI)
-session_factory = sessionmaker(bind=engine)
-RawSQLSession = scoped_session(session_factory)  # Renamed to avoid conflict with Flask sessions
 
 def generate_jwt_token(player_id):
     payload = {
