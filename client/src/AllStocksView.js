@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import StockGraphPopup from './StockGraphPopup';
 import './AllStocksView.css';
+import apiFetch from './api';
 
 const AllStocksView = () => {
   const [stocksData, setStocksData] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('All'); // Default to showing all categories
   const [selectedStock, setSelectedStock] = useState(null);
   const [stockHistory, setStockHistory] = useState([]);
-
+  
   useEffect(() => {
-    fetch('/api/stocks_data')
+    apiFetch('/api/stocks_data')
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched data: ", data);
@@ -20,7 +21,7 @@ const AllStocksView = () => {
 
   const fetchStockHistory = (stockId, stockName) => {
     console.log("Fetching history for stock ID: ", stockId);
-    fetch(`/api/stock_history/${stockId}`)
+    apiFetch(`/api/stock_history/${stockId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched stock history: ", data);
