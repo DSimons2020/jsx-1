@@ -33,7 +33,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__, static_folder=client_build_path, template_folder='templates')
 
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": os.getenv('ALLOWED_ORIGINS', '*').split(',')}})
+CORS(app, resources={r"/api/*": {"origins": "https://jsx-1-production-c820.up.railway.app/"}})
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your_jwt_secret_key')
 
