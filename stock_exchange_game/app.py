@@ -1931,13 +1931,17 @@ def serve_static(path):
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_react_app(path):
+    # If the path starts with 'api/', it's an invalid API route.
     if path.startswith("api/"):
         return jsonify({"error": "API route not found"}), 404
 
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+    # Serve static files if they exist
+    file_path = os.path.join(app.static_folder, path)
+    if os.path.exists(file_path):
         return send_from_directory(app.static_folder, path)
-    else:
-        return send_from_directory(app.static_folder, "index.html")
+
+    # Default to serving React's index.html
+    return send_from_directory(app.static_folder, "index.html")
 
 # Run the app
 if __name__ == '__main__':
