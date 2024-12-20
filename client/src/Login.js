@@ -13,7 +13,7 @@ const Login = ({ setIsAuthenticated }) => {
     setErrorMessage(''); // Clear previous error message
 
     try {
-      const loginResponse = await fetch('/login', {
+      const loginResponse = await fetch('api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
